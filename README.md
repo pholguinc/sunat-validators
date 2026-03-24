@@ -288,6 +288,41 @@ bun run src/test-validators.ts
 
 ## Changelog
 
+### v1.0.1 (2026-03-24)
+
+**Soporte dual ESM + CommonJS** — la librería ahora funciona en NestJS y cualquier entorno CJS.
+
+#### Cambios
+
+- **Compilación dual**: se genera `dist/index.js` (ESM) y `dist/index.cjs` (CJS) en cada build.
+- **`package.json` — campo `main`**: apunta a `./dist/index.cjs` para compatibilidad con entornos CJS (NestJS, Jest, require).
+- **`package.json` — campo `exports`**: agregada condición `"require"` apuntando a `./dist/index.cjs`; la condición `"import"` sigue apuntando a `./dist/index.js`.
+- **Script `build`**: actualizado para ejecutar dos pasadas de `bun build` (`--format esm` y `--format cjs`) seguido de `tsc` para las declaraciones.
+- **`tsconfig.build.json`**: agregado `declarationMap: true` para generación de source maps de tipos.
+
+#### Uso en NestJS (CJS)
+
+```ts
+// NestJS lo resuelve automáticamente con require()
+import { rucSchema } from "@pholguinc/sunat-validators";
+```
+
+#### Compatibilidad
+
+| Entorno | Formato | Archivo |
+|---|---|---|
+| NestJS, Jest, `require()` | CJS | `dist/index.cjs` |
+| Vite, ESM nativo, Bun | ESM | `dist/index.js` |
+| TypeScript | Tipos | `dist/index.d.ts` |
+
+---
+
+### v1.0.0 (2026-03-24)
+
+**Lanzamiento inicial** con validación completa para facturación electrónica SUNAT.
+
+---
+
 ### v0.1.0 (2026-03-24)
 
 **Lanzamiento inicial** con validación completa para facturación electrónica SUNAT.

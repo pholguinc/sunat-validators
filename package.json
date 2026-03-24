@@ -1,23 +1,24 @@
 {
   "name": "@pholguinc/sunat-validators",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Validadores para SUNAT Perú (RUC, DNI, nombre de archivo, estructura XML) usando Zod",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "bun build ./src/index.ts --outdir ./dist --target node --external zod && tsc --project tsconfig.build.json",
+    "build": "bun build ./src/index.ts --outdir ./dist --target node --external zod --format esm && bun build ./src/index.ts --outfile ./dist/index.cjs --target node --external zod --format cjs && tsc --project tsconfig.build.json",
     "prepublishOnly": "bun run build"
   },
   "peerDependencies": {
